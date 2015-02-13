@@ -131,7 +131,7 @@ private void initThread() {
                         Thread.currentThread().interrupt();
                     }
                     x+=2;
-                    if (x > 6000)
+                    if (x > 5000)
                     {
                         vtecdisplay.setText("VTEC!");
                         x+=4;
@@ -141,7 +141,7 @@ private void initThread() {
                     
                     if (x > 10000)
                         x = 9600;
-                    
+                               
                     rpmIncrease = Integer.toString(x);
                     rpm.setText(rpmIncrease + " RPM");
                     
