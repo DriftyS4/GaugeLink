@@ -18,6 +18,10 @@ public class gaugeForm extends javax.swing.JFrame {
      */
     int x = 0;
     int boost = 0;
+    String rpmIncrease;
+    String rpmDecrease;
+    String boostIncrease;
+    String boostDecrease;
     public gaugeForm() {
         initComponents();
     }
@@ -36,10 +40,12 @@ public class gaugeForm extends javax.swing.JFrame {
         vtecdisplay = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         psiLabel = new javax.swing.JLabel();
+        startButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         throttleButton.setText("Throttle");
+        throttleButton.setToolTipText("Accelerate");
         throttleButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 throttleButtonMousePressed(evt);
@@ -56,12 +62,22 @@ public class gaugeForm extends javax.swing.JFrame {
 
         psiLabel.setText("PSI");
 
+        startButton.setText("Start");
+        startButton.setToolTipText("Start car");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(startButton)
+                .addGap(26, 26, 26)
                 .addComponent(throttleButton)
                 .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
@@ -85,7 +101,9 @@ public class gaugeForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(psiLabel)
                 .addGap(26, 26, 26)
-                .addComponent(throttleButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(throttleButton)
+                    .addComponent(startButton))
                 .addGap(48, 48, 48))
         );
 
@@ -108,6 +126,14 @@ private boolean mouseDown = false;
     }
     }//GEN-LAST:event_throttleButtonMouseReleased
 
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        // TODO add your handling code here:
+        x=800;
+        boost = -25;
+        psiLabel.setText("-25 PSI");
+        rpm.setText("800 RPM");
+    }//GEN-LAST:event_startButtonActionPerformed
+
 
 private boolean isRunning = false;
 private synchronized boolean checkAndMark() {
@@ -115,33 +141,20 @@ private synchronized boolean checkAndMark() {
     isRunning = true;
     return true;
 }
-String rpmIncrease;
-String rpmDecrease;
-String boostIncrease;
-String boostDecrease;
+
 private void initThread() {
     if (checkAndMark()) {
         new Thread() {
             public void run() {
                 do {
                     //do something
-                    try {
-                        Thread.sleep(1);                //1000 milliseconds is one second.
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
-                    x+=2;
-                    if (x > 5000)
-                    {
-                        vtecdisplay.setText("VTEC!");
-                        x+=4;
-                    }
+                    goToSleep();
                     
                     
+                    x = isVtec(x);
+                    x = isRevLimit(x);
                     
-                    if (x > 10000)
-                        x = 9600;
-                               
+                    x+=2;        
                     rpmIncrease = Integer.toString(x);
                     rpm.setText(rpmIncrease + " RPM");
                     
@@ -150,17 +163,13 @@ private void initThread() {
                     boost = 20;
                     
                     boostIncrease = Integer.toString(boost);
-                    psiLabel.setText(boostIncrease + "PSI");
+                    psiLabel.setText(boostIncrease + " PSI");
                     
                     
                 } while (mouseDown);
                 isRunning = false;
                     do {
-                        try {
-                            Thread.sleep(1);                //1000 milliseconds is one second.
-                        } catch (InterruptedException ex) {
-                            Thread.currentThread().interrupt();
-                        }
+                        goToSleep();
                         x-=2;
                         rpmDecrease = Integer.toString(x);
                         rpm.setText(rpmDecrease + " RPM");
@@ -176,7 +185,7 @@ private void initThread() {
                     boost = -25;
                     
                     boostDecrease = Integer.toString(boost);
-                    psiLabel.setText(boostDecrease + "PSI");
+                    psiLabel.setText(boostDecrease + " PSI");
                         
                     }while (mouseDown == false);
                 
@@ -187,7 +196,32 @@ private void initThread() {
 }
 
 
+private void goToSleep(){
+    try {
+                        Thread.sleep(1);                //1000 milliseconds is one second.
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+}
 
+private void revUp(){
+
+    
+}
+private int isRevLimit(int x){
+    if (x > 10000) {
+        x = 9600;
+    }
+    return x;
+}
+
+public int isVtec(int x){
+                    if (x > 5000) {
+        vtecdisplay.setText("VTEC!");
+        x += 4;
+    }
+    return x;
+}
     
     
     
@@ -230,6 +264,7 @@ private void initThread() {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel psiLabel;
     private javax.swing.JLabel rpm;
+    private javax.swing.JButton startButton;
     private javax.swing.JButton throttleButton;
     private javax.swing.JLabel vtecdisplay;
     // End of variables declaration//GEN-END:variables
