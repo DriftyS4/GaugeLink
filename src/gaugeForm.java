@@ -92,9 +92,9 @@ public class gaugeForm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
+                .addContainerGap(76, Short.MAX_VALUE)
                 .addComponent(vtecdisplay)
-                .addGap(18, 18, 18)
+                .addGap(38, 38, 38)
                 .addComponent(rpm)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
@@ -148,7 +148,7 @@ private void initThread() {
             public void run() {
                 do {
                     //do something
-                    goToSleep();
+                    goToSleep(1);
                     
                     
                     x = isVtec(x);
@@ -169,7 +169,7 @@ private void initThread() {
                 } while (mouseDown);
                 isRunning = false;
                     do {
-                        goToSleep();
+                        goToSleep(1);
                         x-=2;
                         rpmDecrease = Integer.toString(x);
                         rpm.setText(rpmDecrease + " RPM");
@@ -196,9 +196,9 @@ private void initThread() {
 }
 
 
-private void goToSleep(){
+private void goToSleep(int x){
     try {
-                        Thread.sleep(1);                //1000 milliseconds is one second.
+                        Thread.sleep(x);                //1000 milliseconds is one second.
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
@@ -211,6 +211,8 @@ private void revUp(){
 private int isRevLimit(int x){
     if (x > 10000) {
         x = 9600;
+        rpm.setText("10000 RPM");
+        goToSleep(50);
     }
     return x;
 }
