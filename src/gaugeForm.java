@@ -16,6 +16,8 @@ public class gaugeForm extends javax.swing.JFrame {
     /**
      * Creates new form gaugeForm
      */
+    
+    // x is RPM, will change in the future.
     int x = 0;
     int speedNum = 0;
     int boost = 0;
@@ -172,6 +174,7 @@ public class gaugeForm extends javax.swing.JFrame {
 private boolean mouseDown = false;
     private void throttleButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_throttleButtonMousePressed
         // TODO add your handling code here:
+        //--------------->>>>>>>>>>> when mouse is clicked in.
         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
         mouseDown = true;
         initThread();
@@ -180,6 +183,7 @@ private boolean mouseDown = false;
 
     private void throttleButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_throttleButtonMouseReleased
         // TODO add your handling code here:
+        //---------------->>>>>>>>>> when mouse is released
         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
         mouseDown = false;
         //initThread();
@@ -188,8 +192,10 @@ private boolean mouseDown = false;
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         // TODO add your handling code here:
+        // ----------->>>>>>>>>>> initialize values
         x=800;
         boost = -25;
+        speed.setText("0 MPH");
         psiLabel.setText("-25 PSI");
         rpm.setText("800 RPM");
     }//GEN-LAST:event_startButtonActionPerformed
@@ -202,67 +208,85 @@ private synchronized boolean checkAndMark() {
     return true;
 }
 
+// creates a thread in run time
 private void initThread() {
     if (checkAndMark()) {
         new Thread() {
             public void run() {
                 do {
-                    //do something
+                    //sleeps the system, so that we dont build the values too fast
                     goToSleep(30);
                     
-                    
+                    // checks to display vtec
                     x = isVtec(x);
+                    // checks rev limit, 
                     x = isRevLimit(x);
                     
-                    
+                    // increment speed and display
                     speedNum++;
                     speedIncrease = Integer.toString(speedNum);
                     speed.setText(speedIncrease + " MPH");
                     
-                    
+                    // RPM increase
                     x+=41;        
                     rpmIncrease = Integer.toString(x);
                     rpm.setText(rpmIncrease + " RPM");
                     
+                    //increase boost with a limit of 20
                     boost++;
+                    boostIncrease = Integer.toString(boost);
+                    psiLabel.setText(boostIncrease + " PSI");
+                    
                     if (boost > 20)
                     boost = 20;
                     
-                    boostIncrease = Integer.toString(boost);
-                    psiLabel.setText(boostIncrease + " PSI");
+                    
                     
                     
                 } while (mouseDown);
                 isRunning = false;
+                
+                // once the mouse is released, this loop is entered.
                     do {
+                        //sleep so it doesn't decrease topo quickly
                         goToSleep(30);
+                        
+                        //decrement the RPM
                         x-=41;
                         
+                        // decrease speed
                         speedNum--;
                         speedDecrease = Integer.toString(speedNum);
                         speed.setText(speedDecrease + " MPH");
                         
+                        // to synchronize, forces speed to only have a min value of 0
                         if(speedNum <= 0){
                             speedNum = 0;
                         }
                         
+                        // decrease the RPM
                         rpmDecrease = Integer.toString(x);
                         rpm.setText(rpmDecrease + " RPM");
-                        if (x < 6000)
+                        
+                        //vtec remove once dropped out of 5000
+                        if (x < 5000)
                             vtecdisplay.setText("");
-                       // System.out.println("lowerRPM " + x);
+                      
+                        // minimum RPM is 800
                         if (x <= 800) {
                             x=800;
                         } 
                         
+                        // decrement boost, only allow for -25
                         boost--;
-                    if (boost < -25)
-                    boost = -25;
-                    
-                    boostDecrease = Integer.toString(boost);
-                    psiLabel.setText(boostDecrease + " PSI");
-                    
-                    if (boost == -25 && speedNum == 0 && x == 800){
+                        boostDecrease = Integer.toString(boost);
+                        psiLabel.setText(boostDecrease + " PSI");
+                        
+                        if (boost < -25)
+                        boost = -25;
+                        
+                        //disable the loop once all of the parameters have been met.
+                        if (boost == -25 && speedNum == 0 && x == 800){
                         break;
                     }
                         
