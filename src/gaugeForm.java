@@ -17,7 +17,10 @@ public class gaugeForm extends javax.swing.JFrame {
      * Creates new form gaugeForm
      */
     int x = 0;
+    int speedNum = 0;
     int boost = 0;
+    String speedIncrease;
+    String speedDecrease;
     String rpmIncrease;
     String rpmDecrease;
     String boostIncrease;
@@ -35,12 +38,18 @@ public class gaugeForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         throttleButton = new javax.swing.JButton();
         rpm = new javax.swing.JLabel();
         vtecdisplay = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         psiLabel = new javax.swing.JLabel();
         startButton = new javax.swing.JButton();
+        speed = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
+        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,37 +79,66 @@ public class gaugeForm extends javax.swing.JFrame {
             }
         });
 
+        speed.setText("MPH");
+        speed.setToolTipText("Speed in Miles Per Hour");
+
+        jLabel3.setText("Speedometer");
+
+        jLabel4.setText("Tachometer");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(startButton)
-                .addGap(26, 26, 26)
-                .addComponent(throttleButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(434, Short.MAX_VALUE)
+                                .addComponent(startButton)
+                                .addGap(26, 26, 26))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(vtecdisplay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(throttleButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(rpm)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(speed, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(50, 50, 50)))
                 .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
-                .addGap(147, 147, 147)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(183, 183, 183)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(psiLabel)
-                    .addComponent(jLabel1)
-                    .addComponent(vtecdisplay)
-                    .addComponent(rpm))
-                .addContainerGap(226, Short.MAX_VALUE))
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(76, Short.MAX_VALUE)
+                .addContainerGap(192, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addComponent(vtecdisplay)
-                .addGap(38, 38, 38)
-                .addComponent(rpm)
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rpm)
+                    .addComponent(speed))
+                .addGap(58, 58, 58)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(psiLabel)
-                .addGap(26, 26, 26)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(throttleButton)
                     .addComponent(startButton))
@@ -148,13 +186,19 @@ private void initThread() {
             public void run() {
                 do {
                     //do something
-                    goToSleep(1);
+                    goToSleep(30);
                     
                     
                     x = isVtec(x);
                     x = isRevLimit(x);
                     
-                    x+=2;        
+                    
+                    speedNum++;
+                    speedIncrease = Integer.toString(speedNum);
+                    speed.setText(speedIncrease + " MPH");
+                    
+                    
+                    x+=41;        
                     rpmIncrease = Integer.toString(x);
                     rpm.setText(rpmIncrease + " RPM");
                     
@@ -169,15 +213,24 @@ private void initThread() {
                 } while (mouseDown);
                 isRunning = false;
                     do {
-                        goToSleep(1);
-                        x-=2;
+                        goToSleep(30);
+                        x-=41;
+                        
+                        speedNum--;
+                        speedDecrease = Integer.toString(speedNum);
+                        speed.setText(speedDecrease + " MPH");
+                        
+                        if(speedNum <= 0){
+                            speedNum = 0;
+                        }
+                        
                         rpmDecrease = Integer.toString(x);
                         rpm.setText(rpmDecrease + " RPM");
                         if (x < 6000)
                             vtecdisplay.setText("");
                        // System.out.println("lowerRPM " + x);
                         if (x <= 800) {
-                            break;
+                            x=800;
                         } 
                         
                         boost--;
@@ -186,6 +239,10 @@ private void initThread() {
                     
                     boostDecrease = Integer.toString(boost);
                     psiLabel.setText(boostDecrease + " PSI");
+                    
+                    if (boost == -25 && speedNum == 0 && x == 800){
+                        break;
+                    }
                         
                     }while (mouseDown == false);
                 
@@ -198,10 +255,10 @@ private void initThread() {
 
 private void goToSleep(int x){
     try {
-                        Thread.sleep(x);                //1000 milliseconds is one second.
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
+        Thread.sleep(x);                //1000 milliseconds is one second.
+    } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt();
+    }
 }
 
 private void revUp(){
@@ -218,7 +275,7 @@ private int isRevLimit(int x){
 }
 
 public int isVtec(int x){
-                    if (x > 5000) {
+    if (x > 5000) {
         vtecdisplay.setText("VTEC!");
         x += 4;
     }
@@ -264,8 +321,12 @@ public int isVtec(int x){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel psiLabel;
     private javax.swing.JLabel rpm;
+    private javax.swing.JLabel speed;
     private javax.swing.JButton startButton;
     private javax.swing.JButton throttleButton;
     private javax.swing.JLabel vtecdisplay;
