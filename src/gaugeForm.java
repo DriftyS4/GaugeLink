@@ -21,6 +21,7 @@ public class gaugeForm extends javax.swing.JFrame {
     int x = 0;
     int speedNum = 0;
     int boost = 0;
+    int currentGear = 1;
     String speedIncrease;
     String speedDecrease;
     String rpmIncrease;
@@ -53,6 +54,7 @@ public class gaugeForm extends javax.swing.JFrame {
         currentGearLabel = new javax.swing.JLabel();
         gearNumber = new javax.swing.JLabel();
         changeGearButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -97,6 +99,8 @@ public class gaugeForm extends javax.swing.JFrame {
 
         changeGearButton.setText("Change Gear");
 
+        jLabel5.setText("jLabel5");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,11 +130,16 @@ public class gaugeForm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(speed))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(127, 127, 127)
-                                .addComponent(currentGearLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
-                                .addComponent(jLabel3)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(currentGearLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                                        .addComponent(jLabel3)))))
                         .addGap(50, 50, 50)))
                 .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
@@ -143,7 +152,9 @@ public class gaugeForm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(204, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
@@ -178,6 +189,7 @@ private boolean mouseDown = false;
         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
         mouseDown = true;
         initThread();
+        
     }
     }//GEN-LAST:event_throttleButtonMousePressed
 
@@ -208,6 +220,7 @@ private synchronized boolean checkAndMark() {
     return true;
 }
 
+
 // creates a thread in run time
 private void initThread() {
     if (checkAndMark()) {
@@ -223,12 +236,14 @@ private void initThread() {
                     x = isRevLimit(x);
                     
                     // increment speed and display
+                   if ((currentGear == 1) && (speedNum < 60)){
                     speedNum++;
                     speedIncrease = Integer.toString(speedNum);
                     speed.setText(speedIncrease + " MPH");
+                   }
                     
                     // RPM increase
-                    x+=41;        
+                    x+=100;        
                     rpmIncrease = Integer.toString(x);
                     rpm.setText(rpmIncrease + " RPM");
                     
@@ -252,7 +267,11 @@ private void initThread() {
                         goToSleep(30);
                         
                         //decrement the RPM
-                        x-=41;
+                        x-=100;
+                        // decrease the RPM
+                        rpmDecrease = Integer.toString(x);
+                        rpm.setText(rpmDecrease + " RPM");
+                        
                         
                         // decrease speed
                         speedNum--;
@@ -260,13 +279,13 @@ private void initThread() {
                         speed.setText(speedDecrease + " MPH");
                         
                         // to synchronize, forces speed to only have a min value of 0
-                        if(speedNum <= 0){
+                        if(speedNum < 0){
                             speedNum = 0;
+                            speedDecrease = Integer.toString(speedNum);
+                            speed.setText(speedDecrease + " MPH");
                         }
                         
-                        // decrease the RPM
-                        rpmDecrease = Integer.toString(x);
-                        rpm.setText(rpmDecrease + " RPM");
+                        
                         
                         //vtec remove once dropped out of 5000
                         if (x < 5000)
@@ -275,6 +294,8 @@ private void initThread() {
                         // minimum RPM is 800
                         if (x <= 800) {
                             x=800;
+                            rpmDecrease = Integer.toString(x);
+                            rpm.setText(rpmDecrease + " RPM");
                         } 
                         
                         // decrement boost, only allow for -25
@@ -282,11 +303,15 @@ private void initThread() {
                         boostDecrease = Integer.toString(boost);
                         psiLabel.setText(boostDecrease + " PSI");
                         
-                        if (boost < -25)
-                        boost = -25;
+                        if (boost < -25){
+                            boost = -25;
+                            boostDecrease = Integer.toString(boost);
+                            psiLabel.setText(boostDecrease + " PSI");
+                        }
                         
                         //disable the loop once all of the parameters have been met.
-                        if (boost == -25 && speedNum == 0 && x == 800){
+                        if (boost <= -25 && speedNum <= 0 && x <= 800){
+                               
                         break;
                     }
                         
@@ -312,9 +337,9 @@ private void revUp(){
     
 }
 private int isRevLimit(int x){
-    if (x > 10000) {
-        x = 9600;
-        rpm.setText("10000 RPM");
+    if (x > 9100) {
+        x = 9100;
+        rpm.setText("9100 RPM");
         goToSleep(50);
     }
     return x;
@@ -323,11 +348,14 @@ private int isRevLimit(int x){
 public int isVtec(int x){
     if (x > 5000) {
         vtecdisplay.setText("VTEC!");
-        x += 4;
+        //x += 4;
     }
     return x;
 }
     
+private void increment(int x){
+    
+}
     
     
     /**
@@ -373,6 +401,7 @@ public int isVtec(int x){
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel psiLabel;
     private javax.swing.JLabel rpm;
     private javax.swing.JLabel speed;
