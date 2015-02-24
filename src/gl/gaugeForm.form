@@ -133,6 +133,7 @@
     <Component class="javax.swing.JLabel" name="rpm">
       <Properties>
         <Property name="text" type="java.lang.String" value="RPM"/>
+        <Property name="toolTipText" type="java.lang.String" value="Engine Speed measured in rotations per minute"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="vtecdisplay">
@@ -140,12 +141,14 @@
     <Component class="javax.swing.JLabel" name="boostLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Boost"/>
+        <Property name="toolTipText" type="java.lang.String" value="Turbo pressure"/>
         <Property name="name" type="java.lang.String" value="Boost" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="psiLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="PSI"/>
+        <Property name="toolTipText" type="java.lang.String" value="(Pounds per square inch)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="startButton">
@@ -166,26 +169,31 @@
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" value="Speedometer"/>
+        <Property name="toolTipText" type="java.lang.String" value="Moving speed of the car"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tachometer"/>
+        <Property name="toolTipText" type="java.lang.String" value="Engine Speed measured in rotations per minute"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="currentGearLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Current Gear"/>
+        <Property name="toolTipText" type="java.lang.String" value="Determines moving speed (MPH) and engine speed (RPM)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="gearNumber">
       <Properties>
         <Property name="text" type="java.lang.String" value="1"/>
+        <Property name="toolTipText" type="java.lang.String" value="Determines moving speed (MPH) and engine speed (RPM)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="changeGearButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Change Gear"/>
+        <Property name="toolTipText" type="java.lang.String" value="Change gear up (go faster)"/>
       </Properties>
     </Component>
   </SubComponents>

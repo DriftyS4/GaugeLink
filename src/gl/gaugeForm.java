@@ -76,11 +76,14 @@ public class gaugeForm extends javax.swing.JFrame {
         });
 
         rpm.setText("RPM");
+        rpm.setToolTipText("Engine Speed measured in rotations per minute");
 
         boostLabel.setText("Boost");
+        boostLabel.setToolTipText("Turbo pressure");
         boostLabel.setName("Boost"); // NOI18N
 
         psiLabel.setText("PSI");
+        psiLabel.setToolTipText("(Pounds per square inch)");
 
         startButton.setText("Start");
         startButton.setToolTipText("Start car");
@@ -94,14 +97,19 @@ public class gaugeForm extends javax.swing.JFrame {
         speed.setToolTipText("Speed in Miles Per Hour");
 
         jLabel3.setText("Speedometer");
+        jLabel3.setToolTipText("Moving speed of the car");
 
         jLabel4.setText("Tachometer");
+        jLabel4.setToolTipText("Engine Speed measured in rotations per minute");
 
         currentGearLabel.setText("Current Gear");
+        currentGearLabel.setToolTipText("Determines moving speed (MPH) and engine speed (RPM)");
 
         gearNumber.setText("1");
+        gearNumber.setToolTipText("Determines moving speed (MPH) and engine speed (RPM)");
 
         changeGearButton.setText("Change Gear");
+        changeGearButton.setToolTipText("Change gear up (go faster)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
