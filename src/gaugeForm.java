@@ -19,7 +19,7 @@ public class gaugeForm extends javax.swing.JFrame {
     
     // x is RPM, will change in the future.
     int x = 0;
-    int speedNum = 0;
+    double speedNum = 0;
     int boost = 0;
     int currentGear = 1;
     String speedIncrease;
@@ -45,7 +45,7 @@ public class gaugeForm extends javax.swing.JFrame {
         throttleButton = new javax.swing.JButton();
         rpm = new javax.swing.JLabel();
         vtecdisplay = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        boostLabel = new javax.swing.JLabel();
         psiLabel = new javax.swing.JLabel();
         startButton = new javax.swing.JButton();
         speed = new javax.swing.JLabel();
@@ -54,7 +54,6 @@ public class gaugeForm extends javax.swing.JFrame {
         currentGearLabel = new javax.swing.JLabel();
         gearNumber = new javax.swing.JLabel();
         changeGearButton = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -73,8 +72,8 @@ public class gaugeForm extends javax.swing.JFrame {
 
         rpm.setText("RPM");
 
-        jLabel1.setText("Boost");
-        jLabel1.setName("Boost"); // NOI18N
+        boostLabel.setText("Boost");
+        boostLabel.setName("Boost"); // NOI18N
 
         psiLabel.setText("PSI");
 
@@ -98,8 +97,6 @@ public class gaugeForm extends javax.swing.JFrame {
         gearNumber.setText("1");
 
         changeGearButton.setText("Change Gear");
-
-        jLabel5.setText("jLabel5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,29 +129,22 @@ public class gaugeForm extends javax.swing.JFrame {
                                 .addComponent(speed))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(127, 127, 127)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(currentGearLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
-                                        .addComponent(jLabel3)))))
+                                .addComponent(currentGearLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                                .addComponent(jLabel3)))
                         .addGap(50, 50, 50)))
                 .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
                 .addGap(183, 183, 183)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(psiLabel)
-                    .addComponent(jLabel1))
+                    .addComponent(boostLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addContainerGap(204, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
@@ -169,7 +159,7 @@ public class gaugeForm extends javax.swing.JFrame {
                             .addComponent(speed)))
                     .addComponent(gearNumber))
                 .addGap(58, 58, 58)
-                .addComponent(jLabel1)
+                .addComponent(boostLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(psiLabel)
                 .addGap(31, 31, 31)
@@ -209,6 +199,7 @@ private boolean mouseDown = false;
         boost = -25;
         speed.setText("0 MPH");
         psiLabel.setText("-25 PSI");
+        boostLabel.setText("Vacuum");
         rpm.setText("800 RPM");
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -236,9 +227,9 @@ private void initThread() {
                     x = isRevLimit(x);
                     
                     // increment speed and display
-                   if ((currentGear == 1) && (speedNum < 60)){
-                    speedNum++;
-                    speedIncrease = Integer.toString(speedNum);
+                   if ((currentGear == 1) && (speedNum < 45)){
+                    speedNum=speedNum+.5;
+                    speedIncrease = Double.toString(speedNum);
                     speed.setText(speedIncrease + " MPH");
                    }
                     
@@ -252,9 +243,10 @@ private void initThread() {
                     boostIncrease = Integer.toString(boost);
                     psiLabel.setText(boostIncrease + " PSI");
                     
-                    if (boost > 20)
-                    boost = 20;
+                    isBoost(boost);
+                    isVacuum(boost);
                     
+                    boost = isBoostLimit(boost);
                     
                     
                     
@@ -274,14 +266,14 @@ private void initThread() {
                         
                         
                         // decrease speed
-                        speedNum--;
-                        speedDecrease = Integer.toString(speedNum);
+                        speedNum=speedNum - .5;
+                        speedDecrease = Double.toString(speedNum);
                         speed.setText(speedDecrease + " MPH");
                         
                         // to synchronize, forces speed to only have a min value of 0
                         if(speedNum < 0){
                             speedNum = 0;
-                            speedDecrease = Integer.toString(speedNum);
+                            speedDecrease = Double.toString(speedNum);
                             speed.setText(speedDecrease + " MPH");
                         }
                         
@@ -302,12 +294,9 @@ private void initThread() {
                         boost--;
                         boostDecrease = Integer.toString(boost);
                         psiLabel.setText(boostDecrease + " PSI");
-                        
-                        if (boost < -25){
-                            boost = -25;
-                            boostDecrease = Integer.toString(boost);
-                            psiLabel.setText(boostDecrease + " PSI");
-                        }
+                        isBoost(boost);
+                        isVacuum(boost);
+                        boost = isBoostLimitNeg(boost);
                         
                         //disable the loop once all of the parameters have been met.
                         if (boost <= -25 && speedNum <= 0 && x <= 800){
@@ -335,6 +324,30 @@ private void goToSleep(int x){
 private void revUp(){
 
     
+}
+private void isBoost(int x){
+    if (boost > 0){
+        boostLabel.setText("Boost");
+    }
+}
+private void isVacuum(int x){
+    if (boost < 0){
+        boostLabel.setText("Vacuum");
+    }
+}
+private int isBoostLimit(int x){
+    if (x > 20){
+        x=20;
+        psiLabel.setText("25 PSI");
+    }
+    return x;
+}
+private int isBoostLimitNeg(int x){
+    if (x < -25){
+        x = -25;
+        psiLabel.setText("-25 PSI");
+    }
+    return x;
 }
 private int isRevLimit(int x){
     if (x > 9100) {
@@ -394,14 +407,13 @@ private void increment(int x){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel boostLabel;
     private javax.swing.JButton changeGearButton;
     private javax.swing.JLabel currentGearLabel;
     private javax.swing.JLabel gearNumber;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel psiLabel;
     private javax.swing.JLabel rpm;
     private javax.swing.JLabel speed;
