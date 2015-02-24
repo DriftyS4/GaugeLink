@@ -33,21 +33,24 @@
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" pref="147" max="-2" attributes="0"/>
                               <Component id="vtecdisplay" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="gearNumber" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="startButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="shiftUpButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="shiftDownButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                      <Component id="changeGearButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Component id="throttleButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -112,7 +115,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="throttleButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="changeGearButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="shiftUpButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="shiftDownButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
           </Group>
@@ -190,10 +194,15 @@
         <Property name="toolTipText" type="java.lang.String" value="Determines moving speed (MPH) and engine speed (RPM)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="changeGearButton">
+    <Component class="javax.swing.JButton" name="shiftUpButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Change Gear"/>
+        <Property name="text" type="java.lang.String" value="Shift up"/>
         <Property name="toolTipText" type="java.lang.String" value="Change gear up (go faster)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="shiftDownButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Shift Down"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -58,7 +58,8 @@ public class gaugeForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         currentGearLabel = new javax.swing.JLabel();
         gearNumber = new javax.swing.JLabel();
-        changeGearButton = new javax.swing.JButton();
+        shiftUpButton = new javax.swing.JButton();
+        shiftDownButton = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -108,8 +109,10 @@ public class gaugeForm extends javax.swing.JFrame {
         gearNumber.setText("1");
         gearNumber.setToolTipText("Determines moving speed (MPH) and engine speed (RPM)");
 
-        changeGearButton.setText("Change Gear");
-        changeGearButton.setToolTipText("Change gear up (go faster)");
+        shiftUpButton.setText("Shift up");
+        shiftUpButton.setToolTipText("Change gear up (go faster)");
+
+        shiftDownButton.setText("Shift Down");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,18 +121,21 @@ public class gaugeForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(147, 147, 147)
                                 .addComponent(vtecdisplay)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(gearNumber))
+                                .addComponent(gearNumber)
+                                .addGap(189, 189, 189))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(startButton)))
-                        .addGap(54, 54, 54)
-                        .addComponent(changeGearButton)
-                        .addGap(42, 42, 42)
+                                .addComponent(startButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(shiftUpButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(shiftDownButton)
+                                .addGap(13, 13, 13)))
                         .addComponent(throttleButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(101, 101, 101)
@@ -179,7 +185,8 @@ public class gaugeForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(throttleButton)
                     .addComponent(startButton)
-                    .addComponent(changeGearButton))
+                    .addComponent(shiftUpButton)
+                    .addComponent(shiftDownButton))
                 .addGap(48, 48, 48))
         );
 
@@ -424,7 +431,6 @@ private void increment(int x){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel boostLabel;
-    private javax.swing.JButton changeGearButton;
     private javax.swing.JLabel currentGearLabel;
     private javax.swing.JLabel gearNumber;
     private javax.swing.JLabel jLabel2;
@@ -432,6 +438,8 @@ private void increment(int x){
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel psiLabel;
     private javax.swing.JLabel rpm;
+    private javax.swing.JButton shiftDownButton;
+    private javax.swing.JButton shiftUpButton;
     private javax.swing.JLabel speed;
     private javax.swing.JButton startButton;
     private javax.swing.JButton throttleButton;
