@@ -9,7 +9,7 @@ import javax.swing.Timer;
 
 
 
-
+//class for the circle
 public class Circle extends JPanel implements ActionListener {
 
 	double angle;
