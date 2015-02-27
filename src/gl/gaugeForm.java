@@ -33,6 +33,7 @@ public class gaugeForm extends javax.swing.JFrame {
     String rpmDecrease;
     String boostIncrease;
     String boostDecrease;
+    boolean isEconomic;
     public gaugeForm() {
         initComponents();
     }
@@ -60,6 +61,9 @@ public class gaugeForm extends javax.swing.JFrame {
         gearNumber = new javax.swing.JLabel();
         shiftUpButton = new javax.swing.JButton();
         shiftDownButton = new javax.swing.JButton();
+        economic = new javax.swing.JButton();
+        performance = new javax.swing.JButton();
+        shiftTell = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -114,6 +118,24 @@ public class gaugeForm extends javax.swing.JFrame {
 
         shiftDownButton.setText("Shift Down");
 
+        economic.setText("Economic");
+        economic.setEnabled(false);
+        economic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                economicActionPerformed(evt);
+            }
+        });
+
+        performance.setText("Performance");
+        performance.setEnabled(false);
+        performance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                performanceActionPerformed(evt);
+            }
+        });
+
+        shiftTell.setText("                   ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,11 +181,26 @@ public class gaugeForm extends javax.swing.JFrame {
                     .addComponent(psiLabel)
                     .addComponent(boostLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(performance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(economic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(shiftTell)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(204, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addComponent(economic)
+                .addGap(18, 18, 18)
+                .addComponent(performance)
+                .addGap(18, 18, 18)
+                .addComponent(shiftTell)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
@@ -221,7 +258,23 @@ private boolean mouseDown = false;
         psiLabel.setText("-25 PSI");
         boostLabel.setText("Vacuum");
         rpm.setText("800 RPM");
+        performance.setEnabled(true);
+        isEconomic = true;
     }//GEN-LAST:event_startButtonActionPerformed
+
+    private void performanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_performanceActionPerformed
+        // TODO add your handling code here:
+        performance.setEnabled(false);
+        economic.setEnabled(true);
+        isEconomic = false;
+    }//GEN-LAST:event_performanceActionPerformed
+
+    private void economicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_economicActionPerformed
+        // TODO add your handling code here:
+        performance.setEnabled(true);
+        economic.setEnabled(false);
+        isEconomic = true;
+    }//GEN-LAST:event_economicActionPerformed
 
 
 private boolean isRunning = false;
@@ -268,6 +321,7 @@ private void initThread() {
                     
                     boost = isBoostLimit(boost);
                     
+                    shiftTell(x);
                     
                     
                 } while (mouseDown);
@@ -318,6 +372,7 @@ private void initThread() {
                         isVacuum(boost);
                         boost = isBoostLimitNeg(boost);
                         
+                        shiftTell(x);
                         //disable the loop once all of the parameters have been met.
                         if (boost <= -25 && speedNum <= 0 && x <= 800){
                                
@@ -386,7 +441,27 @@ public int isVtec(int x){
     return x;
 }
 
-
+public void shiftTell(int x)
+{
+    if(!isEconomic)
+    {
+        if(x > 9000)
+        {
+            shiftTell.setText("Shift Up");
+        }
+        else
+            shiftTell.setText("");
+    }    
+    else
+    {
+        if(x > 2500)
+        {
+            shiftTell.setText("Shift Up");
+        }
+        else
+            shiftTell.setText("");
+    }
+}
 
     
 private void increment(int x){
@@ -432,13 +507,16 @@ private void increment(int x){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel boostLabel;
     private javax.swing.JLabel currentGearLabel;
+    private javax.swing.JButton economic;
     private javax.swing.JLabel gearNumber;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JButton performance;
     private javax.swing.JLabel psiLabel;
     private javax.swing.JLabel rpm;
     private javax.swing.JButton shiftDownButton;
+    private javax.swing.JLabel shiftTell;
     private javax.swing.JButton shiftUpButton;
     private javax.swing.JLabel speed;
     private javax.swing.JButton startButton;
