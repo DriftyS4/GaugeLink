@@ -217,11 +217,17 @@
         <Property name="text" type="java.lang.String" value="Shift up"/>
         <Property name="toolTipText" type="java.lang.String" value="Change gear up (go faster)"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="shiftUpButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="shiftDownButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Shift Down"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="shiftDownButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="economic">
       <Properties>

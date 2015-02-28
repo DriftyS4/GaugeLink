@@ -27,6 +27,8 @@ public class gaugeForm extends javax.swing.JFrame {
     double speedNum = 0;
     int boost = 0;
     int currentGear = 1;
+    String gearIncrease;
+    String gearDecrease;
     String speedIncrease;
     String speedDecrease;
     String rpmIncrease;
@@ -115,8 +117,18 @@ public class gaugeForm extends javax.swing.JFrame {
 
         shiftUpButton.setText("Shift up");
         shiftUpButton.setToolTipText("Change gear up (go faster)");
+        shiftUpButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                shiftUpButtonMouseClicked(evt);
+            }
+        });
 
         shiftDownButton.setText("Shift Down");
+        shiftDownButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                shiftDownButtonMouseClicked(evt);
+            }
+        });
 
         economic.setText("Economic");
         economic.setEnabled(false);
@@ -275,6 +287,27 @@ private boolean mouseDown = false;
         economic.setEnabled(false);
         isEconomic = true;
     }//GEN-LAST:event_economicActionPerformed
+
+    private void shiftUpButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shiftUpButtonMouseClicked
+        // TODO add your handling code here:
+        // Max gear is 6
+        if (currentGear <= 5){
+            x-=2000;
+            currentGear+=1;
+            gearIncrease=Integer.toString(currentGear);
+            gearNumber.setText(gearIncrease);
+        }
+    }//GEN-LAST:event_shiftUpButtonMouseClicked
+
+    private void shiftDownButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shiftDownButtonMouseClicked
+        // TODO add your handling code here:
+        if (currentGear >= 2){
+           x+=2000;
+           currentGear-=1;
+           gearDecrease=Integer.toString(currentGear);
+           gearNumber.setText(gearDecrease);
+       }
+    }//GEN-LAST:event_shiftDownButtonMouseClicked
 
 
 private boolean isRunning = false;
