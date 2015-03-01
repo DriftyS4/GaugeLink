@@ -66,6 +66,7 @@ public class gaugeForm extends javax.swing.JFrame {
         economic = new javax.swing.JButton();
         performance = new javax.swing.JButton();
         shiftTell = new javax.swing.JLabel();
+        checkShiftLabel = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -73,6 +74,7 @@ public class gaugeForm extends javax.swing.JFrame {
 
         throttleButton.setText("Throttle");
         throttleButton.setToolTipText("Accelerate");
+        throttleButton.setEnabled(false);
         throttleButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 throttleButtonMousePressed(evt);
@@ -117,6 +119,7 @@ public class gaugeForm extends javax.swing.JFrame {
 
         shiftUpButton.setText("Shift up");
         shiftUpButton.setToolTipText("Change gear up (go faster)");
+        shiftUpButton.setEnabled(false);
         shiftUpButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 shiftUpButtonMouseClicked(evt);
@@ -124,6 +127,7 @@ public class gaugeForm extends javax.swing.JFrame {
         });
 
         shiftDownButton.setText("Shift Down");
+        shiftDownButton.setEnabled(false);
         shiftDownButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 shiftDownButtonMouseClicked(evt);
@@ -147,6 +151,8 @@ public class gaugeForm extends javax.swing.JFrame {
         });
 
         shiftTell.setText("                   ");
+
+        checkShiftLabel.setText("Shift");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,12 +193,6 @@ public class gaugeForm extends javax.swing.JFrame {
                                 .addComponent(jLabel3)))
                         .addGap(50, 50, 50)))
                 .addGap(51, 51, 51))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(183, 183, 183)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(psiLabel)
-                    .addComponent(boostLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -202,6 +202,17 @@ public class gaugeForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(shiftTell)
                 .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(psiLabel)
+                            .addComponent(boostLabel)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(300, 300, 300)
+                        .addComponent(checkShiftLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,7 +223,9 @@ public class gaugeForm extends javax.swing.JFrame {
                 .addComponent(performance)
                 .addGap(18, 18, 18)
                 .addComponent(shiftTell)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(checkShiftLabel)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
@@ -271,6 +284,10 @@ private boolean mouseDown = false;
         boostLabel.setText("Vacuum");
         rpm.setText("800 RPM");
         performance.setEnabled(true);
+        throttleButton.setEnabled(true);
+        shiftUpButton.setEnabled(true);
+        shiftDownButton.setEnabled(true);
+        startButton.setEnabled(false);
         isEconomic = true;
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -291,22 +308,26 @@ private boolean mouseDown = false;
     private void shiftUpButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shiftUpButtonMouseClicked
         // TODO add your handling code here:
         // Max gear is 6
+        checkShift(x,isEconomic);
         if (currentGear <= 5){
-            x-=2000;
+            x-=1000;
             currentGear+=1;
             gearIncrease=Integer.toString(currentGear);
             gearNumber.setText(gearIncrease);
         }
+        
     }//GEN-LAST:event_shiftUpButtonMouseClicked
 
     private void shiftDownButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shiftDownButtonMouseClicked
         // TODO add your handling code here:
         if (currentGear >= 2){
-           x+=2000;
+           x+=1000;
            currentGear-=1;
            gearDecrease=Integer.toString(currentGear);
            gearNumber.setText(gearDecrease);
        }
+       
+        
     }//GEN-LAST:event_shiftDownButtonMouseClicked
 
 
@@ -334,6 +355,11 @@ private void initThread() {
                     
                     // increment speed and display
                    if ((currentGear == 1) && (speedNum < 45)){
+                    speedNum=speedNum+.5;
+                    speedIncrease = Double.toString(speedNum);
+                    speed.setText(speedIncrease + " MPH");
+                   }
+                   else if ((currentGear == 2) && (speedNum < 60)){
                     speedNum=speedNum+.5;
                     speedIncrease = Double.toString(speedNum);
                     speed.setText(speedIncrease + " MPH");
@@ -366,7 +392,7 @@ private void initThread() {
                         goToSleep(30);
                         
                         //decrement the RPM
-                        x-=100;
+                        x-=50;
                         // decrease the RPM
                         rpmDecrease = Integer.toString(x);
                         rpm.setText(rpmDecrease + " RPM");
@@ -496,6 +522,13 @@ public void shiftTell(int x)
     }
 }
 
+private void checkShift(int x, boolean eco){
+    if(x > 1800 && x < 2500 && eco)
+    checkShiftLabel.setText("Good economic shift!");
+    else if(x > 8500 && x < 9200 && !eco)
+    checkShiftLabel.setText("Good performance shift!");
+
+}
     
 private void increment(int x){
     
@@ -539,6 +572,7 @@ private void increment(int x){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel boostLabel;
+    private javax.swing.JLabel checkShiftLabel;
     private javax.swing.JLabel currentGearLabel;
     private javax.swing.JButton economic;
     private javax.swing.JLabel gearNumber;

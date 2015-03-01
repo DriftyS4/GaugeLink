@@ -76,14 +76,6 @@
               </Group>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="psiLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="boostLabel" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -96,6 +88,22 @@
               <Component id="shiftTell" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="psiLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="boostLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="300" max="-2" attributes="0"/>
+                      <Component id="checkShiftLabel" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -107,7 +115,9 @@
               <Component id="performance" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="shiftTell" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="87" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
+              <Component id="checkShiftLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -146,6 +156,7 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Throttle"/>
         <Property name="toolTipText" type="java.lang.String" value="Accelerate"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="throttleButtonMousePressed"/>
@@ -216,6 +227,7 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Shift up"/>
         <Property name="toolTipText" type="java.lang.String" value="Change gear up (go faster)"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="shiftUpButtonMouseClicked"/>
@@ -224,6 +236,7 @@
     <Component class="javax.swing.JButton" name="shiftDownButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Shift Down"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="shiftDownButtonMouseClicked"/>
@@ -250,6 +263,11 @@
     <Component class="javax.swing.JLabel" name="shiftTell">
       <Properties>
         <Property name="text" type="java.lang.String" value="                   "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="checkShiftLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Shift"/>
       </Properties>
     </Component>
   </SubComponents>
